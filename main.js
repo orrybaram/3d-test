@@ -42,7 +42,7 @@ loader.options.convertUpAxis = true;
 
 var thing;
 
-loader.load('what.dae', function (result) {
+loader.load('death-star2.dae', function (result) {
   
   thing = result.scene;
   scene.add(thing);
