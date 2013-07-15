@@ -80,28 +80,28 @@ function handleKeyUp(evt){
 }
 
 function handleInteractions(){    
-    if (keys[87]) {  // w
-        camera.translateZ( -.5 )
+    if (keys[87]) {  // w -- move forward
+        camera.translateZ( -.6 )
     }
-    if (keys[83]) {  // s
-        camera.translateZ( .5 )
+    if (keys[83]) {  // s -- move backwards
+        camera.translateZ( .6 )
     }
-    if (keys[65]) { //a
-        camera.translateX( -.5 )
+    if (keys[65]) { //a -- strafe left
+        camera.translateX( -.6 )
     }
-    if (keys[68]) { //d
-        camera.translateX( .5 )
+    if (keys[68]) { //d -- strafe right
+        camera.translateX( .6 )
     }
-    if (keys[37]) { // left
+    if (keys[37]) { // left -- look left
         camera.rotation.y += .02;
     }
-    if (keys[39]) { // right
+    if (keys[39]) { // right -- look right
         camera.rotation.y -= .02;
     }
-    if (keys[38]) { // up
+    if (keys[38]) { // up -- look up
         camera.rotation.x += .02;
     }
-    if (keys[40]) { // down
+    if (keys[40]) { // down -- look down
         camera.rotation.x -= .02;
     }
 }
