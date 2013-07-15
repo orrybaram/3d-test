@@ -13,13 +13,24 @@ var WIDTH = window.innerWidth
 // Create renderer camera and scene
 , renderer = new THREE.WebGLRenderer()
 , camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
-, scene = new THREE.Scene();
+, scene = new THREE.Scene()
+
+, keys = [];
+
+$(function () {
+    window.addEventListener('keydown', handleKeyDown, true);
+    window.addEventListener('keyup', handleKeyUp, true);
+
+    // disable vertical scrolling from arrows :)
+    document.onkeydown = function(){ return event.keyCode != 38 && event.keyCode != 40 && event.keyCode != 37 && event.keyCode != 39}
+});
 
 scene.add(camera);
 camera.position.x = 7;
 camera.position.y = 3;
 camera.position.z = 0;
 camera.rotation.y = -.6
+camera.eulerOrder = "YXZ";
 
 renderer.setSize(WIDTH, HEIGHT);
 
@@ -50,8 +61,6 @@ var setMaterial = function(node, material) {
   }
 }
 
-
-
 // create a point light
 light = new THREE.DirectionalLight( 0xFFFFFF );
 light.position.set( 0, 500, -1700 );
@@ -61,10 +70,49 @@ light.intensity = 2;
 light.castShadow = true;
 scene.add(light)
 
+// EVENT HANDLERS
+// ======================================================
+function handleKeyDown(evt){
+    keys[evt.keyCode] = true;
+}
+function handleKeyUp(evt){
+    keys[evt.keyCode] = false;
+}
+
+function handleInteractions(){    
+    if (keys[87]) {  // w
+        camera.translateZ( -.5 )
+    }
+    if (keys[83]) {  // s
+        camera.translateZ( .5 )
+    }
+    if (keys[65]) { //a
+        camera.translateX( -.5 )
+    }
+    if (keys[68]) { //d
+        camera.translateX( .5 )
+    }
+    if (keys[37]) { // left
+        camera.rotation.y += .02;
+    }
+    if (keys[39]) { // right
+        camera.rotation.y -= .02;
+    }
+    if (keys[38]) { // up
+        camera.rotation.x += .02;
+    }
+    if (keys[40]) { // down
+        camera.rotation.x -= .02;
+    }
+}
+
+
+
 // draw!
 function animloop(){
 	// thing.rotation.y += .01
-  	renderer.render(scene, camera)
+  	handleInteractions();
+    renderer.render(scene, camera)
 
     requestAnimFrame(animloop);
 
