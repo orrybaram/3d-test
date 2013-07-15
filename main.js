@@ -8,12 +8,16 @@ var WIDTH = window.innerWidth
 , NEAR = 1
 , FAR = 1000
 
-, $container = $('#container')
+, $screen = $('#screen')
 
 // Create renderer camera and scene
 , renderer = new THREE.WebGLRenderer()
 , camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
 , scene = new THREE.Scene()
+
+// Player
+, speed = 0.001
+, max_speed = .4
 
 , keys = [];
 
@@ -25,29 +29,29 @@ $(function () {
     document.onkeydown = function(){ return event.keyCode != 38 && event.keyCode != 40 && event.keyCode != 37 && event.keyCode != 39}
 });
 
-camera.position.set(210, 6, -15);
+camera.position.set(600, 5, -135);
 camera.rotation.set(.06, 2, 0);
-camera.eulerOrder = "YXZ";
+camera.eulerOrder = "YZX";
 
 scene.add(camera);
 
 
 renderer.setSize(WIDTH, HEIGHT);
 
-$container.append(renderer.domElement);
+$screen.append(renderer.domElement);
 
 
 var loader = new THREE.ColladaLoader();
 loader.options.convertUpAxis = true;
 
-var thing;
+var deathStar;
 
 loader.load('death-star2.dae', function (result) {
   
-  thing = result.scene;
-  scene.add(thing);
+  deathStar = result.scene;
+  scene.add(deathStar);
 
-  setMaterial(thing, new THREE.MeshLambertMaterial({ color: 0xCCCCCC }));
+  setMaterial(deathStar, new THREE.MeshLambertMaterial({ color: 0xCCCCCC }));
 
   animloop();
 });
@@ -88,11 +92,15 @@ function handleKeyUp(evt){
 
 function handleInteractions(){    
     if (keys[87]) {  // w -- move forward
-
-        camera.translateZ( -.1 )
+        if (speed >= -max_speed) {
+            console.log(speed + "::::" + max_speed)
+            speed -= .01;
+        }
     }
     if (keys[83]) {  // s -- move backwards
-        camera.translateZ( .1 )
+        if (speed <= max_speed / 2) {
+            speed += .01;
+        }
     }
     if (keys[65]) { //a -- strafe left
         camera.translateX( -.1 )
@@ -100,33 +108,39 @@ function handleInteractions(){
     if (keys[68]) { //d -- strafe right
         camera.translateX( .1 )
     }
-    if (keys[37]) { // left -- look left
-        camera.rotation.y += .02;
-    }
-    if (keys[39]) { // right -- look right
-        camera.rotation.y -= .02;
-    }
-    if (keys[38]) { // up -- look up
-        camera.rotation.x += .02;
-    }
-    if (keys[40]) { // down -- look down
+    // if (keys[37]) { // left -- look left
+    //     camera.rotation.y += .02;
+    // }
+    // if (keys[39]) { // right -- look right
+    //     camera.rotation.y -= .02;
+    // }
+    if (keys[38]) { // up -- look down
         camera.rotation.x -= .02;
     }
+    if (keys[40]) { // down -- look up
+        camera.rotation.x += .02;
+    }
 
-    // if (keys[69]) { // e -- barrel right
-    //     camera.rotation.z -= .02;
-    // }
-    // if (keys[81]) { // q -- barrel left
-    //     camera.rotation.z += .02;
-    // }
+    if (keys[37]) { // left -- barrel left
+        camera.rotation.z += .02;
+    }
+    if (keys[39]) { // right -- barrel right
+        camera.rotation.z -= .02;
+    }
 }
 
-
+function thrusters(velocity) {
+    camera.translateZ(velocity)
+}
 
 // draw!
 function animloop(){
-	// thing.rotation.y += .01
-  	handleInteractions();
+	deathStar.rotation.y += .00005
+  	
+    handleInteractions();
+    thrusters(speed);
+    $('#speed').text( (speed * 1000).toFixed(0) * -1 );
+
     renderer.render(scene, camera)
 
     requestAnimFrame(animloop);

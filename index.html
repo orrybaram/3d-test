@@ -1,13 +1,21 @@
 <style>
-	#container {background: black}
+	#wrapper {position: relative;}
+	#stats {position: absolute;  bottom:0; right: 0; color: white;}
+	#screen {background: black}
+
 </style>
 <body>
-	
-	<div id="container"></div>
+	<div id="wrapper">
+		<div id="stats">
+			<span id="speed"></span>
+		</div>
+		<div id="screen"></div>
+
+	</div>
 	
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="three.min.js"></script>
 	<script type="text/javascript" src="ColladaLoader.js"></script>
 	<script type="text/javascript" src="utils.js"></script>
 	<script type="text/javascript" src="main.js"></script>
-</body>
+</body>	
