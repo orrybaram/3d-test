@@ -1,3 +1,3 @@
 3d-test
 =======
-orrybaram.github.io/3dTest
+(orrybaram.github.io/3d-test)[orrybaram.github.io/3d-test]
