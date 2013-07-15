@@ -7,3 +7,12 @@ window.requestAnimFrame = (function(){
             window.setTimeout(callback, 1000 / 60);
           };
 })();
+
+var setMaterial = function(node, material) {
+  node.material = material;
+  if (node.children) {
+    for (var i = 0; i < node.children.length; i++) {
+      setMaterial(node.children[i], material);
+    }
+  }
+}

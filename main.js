@@ -56,14 +56,10 @@ loader.load('death-star2.dae', function (result) {
   animloop();
 });
 
-var setMaterial = function(node, material) {
-  node.material = material;
-  if (node.children) {
-    for (var i = 0; i < node.children.length; i++) {
-      setMaterial(node.children[i], material);
-    }
-  }
-}
+// Skybox
+
+
+
 
 // create a point light
 light = new THREE.DirectionalLight( 0xFFFFFF );
